@@ -28,26 +28,9 @@ class Api::V1::UsersController < ApplicationController
     render json: current_user
   end
   
-  def update_preferences
-    if current_user.update(user_preferences_params)
-      render json: { preferences: current_user.preferences }
-    else
-      render json: { errors: current_user.errors.full_messages }, status: :unprocessable_entity
-    end
-  end
-  
   private
   
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :name)
-  end
-  
-  def user_preferences_params
-    params.require(:preferences).permit(
-      :font_size,
-      :high_contrast,
-      :simplified_interface,
-      :text_to_speech_enabled
-    )
   end
 end

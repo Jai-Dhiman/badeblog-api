@@ -4,7 +4,7 @@ class Api::V1::StoriesController < ApplicationController
   before_action :ensure_owner, only: [:update, :destroy]
   
   def index
-    stories = Story.published.includes(:category, :user)
+    stories = Story.all.includes(:category, :user)
     render json: stories
   end
   
@@ -38,27 +38,6 @@ class Api::V1::StoriesController < ApplicationController
     stories = Story.published.includes(:category, :user)
     render json: stories
   end
-  
-  def upload_photos
-    if @story.photos.attach(params[:photos])
-      render json: { message: 'Photos uploaded successfully' }
-    else
-      render json: { error: 'Failed to upload photos' }, status: :unprocessable_entity
-    end
-  end
-  
-  def remove_photo
-    photo = @story.photos.find(params[:photo_id])
-    photo.purge
-    head :no_content
-  end
-  
-  def by_date
-    stories = Story.published.where('created_at >= ?', params[:date])
-                   .includes(:category, :user)
-                   .order(created_at: :desc)
-    render json: stories
-  end
 
   private
   
@@ -66,13 +45,13 @@ class Api::V1::StoriesController < ApplicationController
     @story = Story.find(params[:id])
   end
   
-  def ensure_owner
-    unless @story.user_id == current_user.id || current_user.admin?
+  def ensure_admin
+    unless current_user.admin?
       render json: { error: 'Unauthorized' }, status: :unauthorized
     end
   end
   
   def story_params
-    params.require(:story).permit(:title, :content, :status, :category_id)
+    params.require(:story).permit(:title, :content, :status, :category_id, :photo)
   end
 end
