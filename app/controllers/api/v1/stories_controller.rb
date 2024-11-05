@@ -1,5 +1,5 @@
 class Api::V1::StoriesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user
   before_action :set_story, except: [:index, :create, :published]
   before_action :ensure_owner, only: [:update, :destroy]
   

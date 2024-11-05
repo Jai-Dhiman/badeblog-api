@@ -1,5 +1,5 @@
 class Story < ApplicationRecord
-  act_as_paranoid
+  acts_as_paranoid
 
   belongs_to :user
   belongs_to :category

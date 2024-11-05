@@ -1,22 +1,26 @@
 require 'rails_helper'
 
-RSpec.describe "Stories", type: :request do
+RSpec.describe Api::V1::StoriesController, type: :controller do
   let(:user) { create(:user) }
   let(:token) { JWT.encode({ user_id: user.id, exp: 24.hours.from_now.to_i }, Rails.application.credentials.fetch(:secret_key_base), 'HS256') }
 
-  describe "GET /api/v1/stories" do
+  before do
+    request.headers['Authorization'] = "Bearer #{token}"
+  end
+
+  describe 'GET #index' do
     before do
       create_list(:story, 3, user: user)
     end
 
-    it "returns all stories" do
-      get "/api/v1/stories", headers: { 'Authorization' => "Bearer #{token}" }
+    it 'returns all stories' do
+      get :index
       expect(response).to have_http_status(:ok)
       expect(JSON.parse(response.body).length).to eq(3)
     end
   end
 
-  describe "POST /api/v1/stories" do
+  describe 'POST #create' do
     let(:category) { create(:category) }
     let(:valid_attributes) do
       {
@@ -29,12 +33,11 @@ RSpec.describe "Stories", type: :request do
       }
     end
 
-    it "creates a new story" do
+    it 'creates a new story' do
       expect {
-        post "/api/v1/stories",
-             params: valid_attributes,
-             headers: { 'Authorization' => "Bearer #{token}" }
+        post :create, params: valid_attributes
       }.to change(Story, :count).by(1)
+      
       expect(response).to have_http_status(:created)
     end
   end
