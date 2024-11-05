@@ -141,6 +141,8 @@ GEM
       racc (~> 1.4)
     nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
+    paranoia (3.0.0)
+      activerecord (>= 6, < 8.1)
     pg (1.5.9)
     psych (5.1.2)
       stringio
@@ -231,6 +233,7 @@ DEPENDENCIES
   bootsnap
   debug
   jwt
+  paranoia
   pg (~> 1.1)
   puma (>= 5.0)
   rack-cors

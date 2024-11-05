@@ -15,6 +15,7 @@ gem "bootsnap", require: false
 
 gem "rack-cors"
 gem "rspec-rails"
+gem "paranoia"
 
 
 group :development, :test do

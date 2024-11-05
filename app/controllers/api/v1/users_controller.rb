@@ -39,7 +39,7 @@ class Api::V1::UsersController < ApplicationController
   private
   
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :username)
+    params.require(:user).permit(:email, :password, :password_confirmation, :name)
   end
   
   def user_preferences_params
