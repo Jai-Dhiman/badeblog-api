@@ -14,4 +14,16 @@ class Story < ApplicationRecord
     using: {
       tsearch: { prefix: true }
     }
+
+  def reorder_photos(photo_ids)
+    transaction do
+      photo_ids.each_with_index do |id, index|
+        photos.find(id).update(position: index)
+      end
+    end
+  end
+  
+  def touch_autosave
+    update_column(:last_autosaved_at, Time.current)
+  end
 end

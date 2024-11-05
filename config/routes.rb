@@ -6,6 +6,9 @@ Rails.application.routes.draw do
       
       resources :users, only: [:show, :update] do
         get 'profile', on: :collection
+        member do
+          patch 'preferences'
+        end
       end
       
       resources :stories do
@@ -14,11 +17,18 @@ Rails.application.routes.draw do
         member do
           post 'upload_photos'
           delete 'remove_photo/:photo_id', to: 'stories#remove_photo'
+          post 'preview'
+          post 'autosave'
+          post 'reorder_photos'
+          patch 'photo_caption'
         end
         
         collection do
           get 'drafts'
           get 'published'
+          get 'recent'
+          get 'by_date'
+          get 'search'
         end
       end
       
