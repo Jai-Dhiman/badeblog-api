@@ -4,7 +4,7 @@ class Api::V1::StoriesController < ApplicationController
   before_action :ensure_owner, only: [:update, :destroy]
   
   def index
-    stories = Story.all.includes(:category, :user)
+    stories = Story.all.includes(:category, :user, :rich_text_content)
     render json: stories
   end
   
@@ -35,7 +35,7 @@ class Api::V1::StoriesController < ApplicationController
   end
   
   def published
-    stories = Story.published.includes(:category, :user)
+    stories = Story.published.includes(:category, :user, :rich_text_content)
     render json: stories
   end
 
@@ -43,12 +43,6 @@ class Api::V1::StoriesController < ApplicationController
   
   def set_story
     @story = Story.find(params[:id])
-  end
-  
-  def ensure_admin
-    unless current_user.admin?
-      render json: { error: 'Unauthorized' }, status: :unauthorized
-    end
   end
   
   def story_params
