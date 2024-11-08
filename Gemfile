@@ -8,6 +8,7 @@ gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 gem "jwt"
 gem "bcrypt", "~> 3.1.7"
+gem "jbuilder"
 
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
