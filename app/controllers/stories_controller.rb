@@ -1,16 +1,13 @@
 class StoriesController < ApplicationController
   before_action :authenticate_user
   before_action :set_story, except: [:index, :create, :published]
-  before_action :ensure_owner, only: [:update, :destroy]
   
   def index
-    stories = Story.all
-    # .includes(:category, :user, :rich_text_content)
+    stories = Story.includes(:category, :user).all
     render json: stories
   end
   
   def show
-    @story = Story.first
     render json: @story
   end
   
@@ -48,6 +45,6 @@ class StoriesController < ApplicationController
   end
   
   def story_params
-    params.require(:story).permit(:title, :content, :status, :category_id, :photo)
+    params.permit(:title, :content, :status, :category_id, :photo)
   end
 end

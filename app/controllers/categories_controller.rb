@@ -11,7 +11,8 @@ class CategoriesController < ApplicationController
   
   def stories
     category = Category.find(params[:id])
-    stories = category.stories.published
+    stories = category.stories
+    #.published
     render json: stories
   end
 end
