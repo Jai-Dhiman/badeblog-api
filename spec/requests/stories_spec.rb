@@ -20,12 +20,10 @@ RSpec.describe "Stories", type: :request do
     let(:category) { create(:category) }
     let(:valid_attributes) do
       {
-        story: {
           title: 'Test Story',
           content: 'Test Content',
           status: 'draft',
           category_id: category.id
-        }
       }
     end
 

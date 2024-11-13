@@ -4,12 +4,10 @@ RSpec.describe "Users", type: :request do
   describe "POST /users" do
     let(:valid_attributes) do
       {
-        user: {
           email: 'test@example.com',
           password: 'password123',
           password_confirmation: 'password123',
           name: 'Test User'
-        }
       }
     end
 

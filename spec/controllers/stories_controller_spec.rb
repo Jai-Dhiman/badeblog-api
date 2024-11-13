@@ -24,12 +24,10 @@ RSpec.describe StoriesController, type: :controller do
     let(:category) { create(:category) }
     let(:valid_attributes) do
       {
-        story: {
           title: 'Test Story',
           content: 'Test Content',
           status: 'draft',
           category_id: category.id
-        }
       }
     end
 
@@ -37,7 +35,6 @@ RSpec.describe StoriesController, type: :controller do
       expect {
         post :create, params: valid_attributes
       }.to change(Story, :count).by(1)
-      
       expect(response).to have_http_status(:created)
     end
   end

@@ -10,5 +10,7 @@ class Story < ApplicationRecord
   validates :title, presence: true
   validates :content, presence: true
   validates :status, presence: true, inclusion: { in: %w[draft published] }
+  validates :category_id, presence: true
+  validates :user_id, presence: true
   
 end
