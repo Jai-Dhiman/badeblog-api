@@ -1,9 +1,9 @@
 class StoriesController < ApplicationController
-  before_action :authenticate_user
+  before_action :authenticate_user, except: [:index, :show, :published]
   before_action :set_story, except: [:index, :create, :published]
   
   def index
-    stories = Story.includes(:category, :user).all
+    stories = Story.includes(:category, :user).order(created_at: :desc)
     render json: stories
   end
   
