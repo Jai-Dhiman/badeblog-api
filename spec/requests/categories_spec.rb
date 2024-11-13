@@ -1,25 +1,24 @@
 require 'rails_helper'
 
+# spec/requests/categories_spec.rb
 RSpec.describe "Categories", type: :request do
   describe "GET /categories" do
     before do
-      create_list(:category, 3)
+      @categories = create_list(:category, 3)
     end
 
     it "returns all categories" do
-      get "/categories"
+      get categories_path
       expect(response).to have_http_status(:ok)
-      expect(JSON.parse(response.body).length).to eq(3)
+      json_response = JSON.parse(response.body)
+      expect(json_response['data'].length).to eq(@categories.length)
     end
-  end
-
-  describe "GET /categories/:id" do
-    let(:category) { create(:category) }
 
     it "returns the requested category" do
-      get "/categories/#{category.id}"
-      expect(response).to have_http_status(:ok)
-      expect(JSON.parse(response.body)["id"]).to eq(category.id)
+      category = @categories.first
+      get category_path(category)
+      json_response = JSON.parse(response.body)
+      expect(json_response['data']['id'].to_i).to eq(category.id)
     end
   end
 end

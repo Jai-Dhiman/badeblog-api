@@ -9,6 +9,7 @@ gem "puma", ">= 5.0"
 gem "jwt"
 gem "bcrypt", "~> 3.1.7"
 gem "jbuilder"
+gem 'active_model_serializers'
 
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 

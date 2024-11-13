@@ -13,4 +13,5 @@ class Story < ApplicationRecord
   validates :category_id, presence: true
   validates :user_id, presence: true
   
+  scope :published, -> { where(status: 'published') }
 end

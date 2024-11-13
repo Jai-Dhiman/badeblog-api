@@ -3,8 +3,9 @@ class StoriesController < ApplicationController
   before_action :set_story, except: [:index, :create, :published]
   
   def index
-    stories = Story.includes(:category, :user).order(created_at: :desc)
-    render json: stories
+    stories = Story.includes(:category, :user, :rich_text_content)
+                  .order(created_at: :desc)
+    render json: stories, root: false
   end
   
   def show
@@ -34,7 +35,7 @@ class StoriesController < ApplicationController
   end
   
   def published
-    stories = Story.published.includes(:category, :user, :rich_text_content)
+    stories = Story.published.includes(:category, :user, :rich_text_content).order(creates_at: :desc)
     render json: stories
   end
 
@@ -45,6 +46,10 @@ class StoriesController < ApplicationController
   end
   
   def story_params
-    params.permit(:title, :content, :status, :category_id, :photo)
+    if params[:story]
+      params.require(:story).permit(:title, :content, :status, :category_id, :photo)
+    else
+      params.permit(:title, :content, :status, :category_id, :photo)
+    end
   end
 end

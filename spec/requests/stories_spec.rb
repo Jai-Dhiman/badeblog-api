@@ -6,13 +6,14 @@ RSpec.describe "Stories", type: :request do
 
   describe "GET /stories" do
     before do
-      create_list(:story, 3, user: user)
+      @stories = create_list(:story, 3, user: user)
     end
 
     it "returns all stories" do
-      get "/stories", headers: { 'Authorization' => "Bearer #{token}" }
+      get stories_path
       expect(response).to have_http_status(:ok)
-      expect(JSON.parse(response.body).length).to eq(3)
+      json_response = JSON.parse(response.body)
+      expect(json_response['data'].length).to eq(@stories.length)  # Note the ['data']
     end
   end
 

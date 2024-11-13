@@ -8,17 +8,18 @@ RSpec.describe StoriesController, type: :controller do
     request.headers['Authorization'] = "Bearer #{token}"
   end
 
-  describe 'GET #index' do
-    before do
-      create_list(:story, 3, user: user)
-    end
-
-    it 'returns all stories' do
-      get :index
-      expect(response).to have_http_status(:ok)
-      expect(JSON.parse(response.body).length).to eq(3)
-    end
+describe 'GET #index' do
+  before do
+    @stories = create_list(:story, 3, user: user)
   end
+
+  it 'returns all stories' do
+    get :index
+    expect(response).to have_http_status(:ok)
+    json_response = JSON.parse(response.body)
+    expect(json_response['data'].length).to eq(@stories.length)
+  end
+end
 
   describe 'POST #create' do
     let(:category) { create(:category) }
