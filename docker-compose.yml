@@ -1,0 +1,27 @@
+version: '3'
+services:
+  db:
+    image: postgres:14
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres:password@db:5432/your_app_name
+      RAILS_ENV: development
+    volumes:
+      - .:/rails
+      - bundle:/usr/local/bundle
+
+volumes:
+  postgres_data:
+  bundle:

@@ -2,9 +2,14 @@
 
 # Ignore git directory.
 /.git/
+.gitignore
+.dockerignore
+.docker-sync
+docker-compose.override.yml
 
 # Ignore bundler config.
 /.bundle
+vendor/bundle
 
 # Ignore all environment files (except templates).
 /.env*
@@ -29,3 +34,7 @@
 !/storage/.keep
 /tmp/storage/*
 !/tmp/storage/.keep
+
+node_modules/
+public/assets
+public/packs
