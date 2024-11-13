@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::StoriesController, type: :controller do
+RSpec.describe StoriesController, type: :controller do
   let(:user) { create(:user) }
   let(:token) { JWT.encode({ user_id: user.id, exp: 24.hours.from_now.to_i }, Rails.application.credentials.fetch(:secret_key_base), 'HS256') }
 

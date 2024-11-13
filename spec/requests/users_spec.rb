@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
-  describe "POST /api/v1/users" do
+  describe "POST /users" do
     let(:valid_attributes) do
       {
         user: {
@@ -15,7 +15,7 @@ RSpec.describe "Users", type: :request do
 
     it "creates a new user" do
       expect {
-        post "/api/v1/users", params: valid_attributes
+        post "/users", params: valid_attributes
       }.to change(User, :count).by(1)
       expect(response).to have_http_status(:created)
     end

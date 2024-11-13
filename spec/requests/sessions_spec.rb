@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe "Sessions", type: :request do
-  describe "POST /api/v1/sessions" do
+  describe "POST /sessions" do
     let(:user) { create(:user, password: 'password123') }
 
     it "creates a session with valid credentials" do
-      post "/api/v1/sessions", params: {
+      post "/sessions", params: {
         email: user.email,
         password: 'password123'
       }
@@ -14,7 +14,7 @@ RSpec.describe "Sessions", type: :request do
     end
 
     it "fails with invalid credentials" do
-      post "/api/v1/sessions", params: {
+      post "/sessions", params: {
         email: user.email,
         password: 'wrong_password'
       }
