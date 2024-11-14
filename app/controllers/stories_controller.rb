@@ -1,6 +1,7 @@
 class StoriesController < ApplicationController
   before_action :authenticate_user, except: [:index, :show, :published]
   before_action :set_story, except: [:index, :create, :published]
+  before_action :authorize_admin!, only: [:create, :update, :destroy]
   
   def index
     stories = Story.includes(:category, :user, :rich_text_content)
@@ -50,6 +51,12 @@ class StoriesController < ApplicationController
       params.require(:story).permit(:title, :content, :status, :category_id, :photo)
     else
       params.permit(:title, :content, :status, :category_id, :photo)
+    end
+  end
+
+  def authorize_admin!
+    unless current_user&.admin?
+      render json: { error: 'Unauthorized' }, status: :forbidden
     end
   end
 end

@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :authenticate_user
+  before_action :authenticate_user, except: [:index]
   before_action :set_story
   before_action :set_comment, only: [:update, :destroy]
   before_action :authorize_comment_owner!, only: [:update, :destroy]
