@@ -3,7 +3,7 @@ Rails.application.routes.draw do
       resources :sessions, only: [:create]
       
       resources :stories do
-        resources :comments, only: [:create, :index]
+        resources :comments, only: [:create, :index, :update, :destroy]
       end
       
       resources :categories, only: [:index, :show] do
