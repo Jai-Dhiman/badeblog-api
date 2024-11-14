@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
   
   def index
     comments = @story.comments.includes(:user)
-    render json: comments
+    render json: comments, each_serializer: CommentSerializer
   end
   
   def create
@@ -12,7 +12,7 @@ class CommentsController < ApplicationController
     comment.user = current_user
     
     if comment.save
-      render json: comment, status: :created
+      render json: comment, serializer: CommentSerializer, status: :created
     else
       render json: { errors: comment.errors.full_messages }, status: :unprocessable_entity
     end
