@@ -3,6 +3,9 @@ Rails.application.routes.draw do
       resources :sessions, only: [:create]
       
       resources :stories do
+        collection do
+          get :drafts
+        end
         resources :comments, only: [:create, :index, :update, :destroy]
       end
       

@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
   before_action :authorize_comment_owner!, only: [:update, :destroy]
   
   def index
-    comments = @story.comments.includes(:user)
+    comments = @story.comments.includes(:user).order(created_at: :desc)
     render json: comments, each_serializer: CommentSerializer
   end
   

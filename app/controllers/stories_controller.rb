@@ -1,10 +1,11 @@
 class StoriesController < ApplicationController
   before_action :authenticate_user, except: [:index, :show, :published]
-  before_action :set_story, except: [:index, :create, :published]
-  before_action :authorize_admin!, only: [:create, :update, :destroy]
+  before_action :set_story, except: [:index, :create, :published, :drafts]
+  before_action :authorize_admin!, only: [:create, :update, :destroy, :drafts]
   
   def index
     stories = Story.includes(:category, :user, :rich_text_content)
+                  .published
                   .order(created_at: :desc)
     render json: stories, root: false
   end
@@ -35,10 +36,20 @@ class StoriesController < ApplicationController
     head :no_content
   end
   
-  def published
-    stories = Story.published.includes(:category, :user, :rich_text_content).order(creates_at: :desc)
-    render json: stories
-  end
+  
+def published
+  stories = Story.published
+                .includes(:category, :user, :rich_text_content)
+                .order(created_at: :desc)
+  render json: stories
+end
+
+def drafts
+  stories = Story.where(status: 'draft')
+                .includes(:category, :user, :rich_text_content)
+                .order(created_at: :desc)
+  render json: stories
+end
 
   private
   
