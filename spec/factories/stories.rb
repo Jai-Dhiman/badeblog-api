@@ -9,5 +9,9 @@ FactoryBot.define do
     trait :published do
       status { 'published' }
     end
+
+    after(:build) do |story|
+      story.content = ActionText::Content.new(story.content)
+    end
   end
 end
