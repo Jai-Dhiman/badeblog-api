@@ -1,4 +1,5 @@
 version: '3'
+
 services:
   db:
     image: postgres:14
@@ -6,9 +7,14 @@ services:
       - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   web:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
     ports:
@@ -21,6 +27,7 @@ services:
     volumes:
       - .:/rails
       - bundle:/usr/local/bundle
+    restart: unless-stopped
 
 volumes:
   postgres_data:
