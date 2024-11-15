@@ -6,7 +6,7 @@ class User < ApplicationRecord
   
   validates :email, presence: true, uniqueness: true
   validates :password_digest, presence: true
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true
   validates :role, presence: true, inclusion: { in: %w[admin user] }
   
   def admin?
