@@ -105,30 +105,88 @@ RSpec.describe "Stories API", type: :request do
   end
 
   describe "PATCH /stories/:id" do
-    let(:story) { create(:story, user: admin_user) }
-    let(:new_attributes) do
-      {
-        story: {
-          title: "Updated Title"
-        }
-      }
-    end
-
+    let(:story) { create(:story, user: admin_user, category: category) }
+    
     context "when user is admin" do
+      let(:new_attributes) do
+        {
+          story: {
+            title: "Updated Title",
+            content: "<div class=\"trix-content\">Updated content</div>",
+            category_id: category.id,
+            status: "published"
+          }
+        }
+      end
+
       it "updates the story" do
-        patch story_path(story), 
-              params: new_attributes, 
+        patch story_path(story),
+              params: new_attributes,
               headers: auth_headers(admin_user)
+
         expect(response).to have_http_status(:ok)
-        expect(story.reload.title).to eq("Updated Title")
+        updated_story = story.reload
+        expect(updated_story.title).to eq("Updated Title")
+        expect(updated_story.content.to_s).to include("Updated content")
+      end
+
+      it "handles content without trix-content wrapper" do
+        attributes = {
+          story: {
+            title: "Updated Title",
+            content: "Plain content without wrapper",
+            category_id: category.id,
+            status: "published"
+          }
+        }
+
+        patch story_path(story),
+              params: attributes,
+              headers: auth_headers(admin_user)
+
+        expect(response).to have_http_status(:ok)
+        updated_story = story.reload
+        expect(updated_story.content.to_s).to include("Plain content without wrapper")
+      end
+
+      it "strips trix-content wrapper from nested content" do
+        nested_content = "<div class=\"trix-content\"><p>Nested content</p></div>"
+        attributes = {
+          story: {
+            title: "Updated Title",
+            content: nested_content,
+            category_id: category.id,
+            status: "published"
+          }
+        }
+
+        patch story_path(story),
+              params: attributes,
+              headers: auth_headers(admin_user)
+
+        expect(response).to have_http_status(:ok)
+        updated_story = story.reload
+        expect(updated_story.content.to_s).to include("<p>Nested content</p>")
       end
     end
 
     context "when user is not admin" do
+      let(:new_attributes) do
+        {
+          story: {
+            title: "Updated Title",
+            content: "<div class=\"trix-content\">Updated content</div>",
+            category_id: category.id,
+            status: "published"
+          }
+        }
+      end
+
       it "returns forbidden status" do
-        patch story_path(story), 
-              params: new_attributes, 
+        patch story_path(story),
+              params: new_attributes,
               headers: auth_headers(regular_user)
+              
         expect(response).to have_http_status(:forbidden)
       end
     end
