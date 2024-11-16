@@ -24,10 +24,20 @@ class StoriesController < ApplicationController
   end
   
   def update
-    if @story.update(story_params)
+    content = story_params[:content]
+    
+    if content.present? && content.include?('class="trix-content"')
+      doc = Nokogiri::HTML::DocumentFragment.parse(content)
+      trix_content = doc.css('.trix-content').first
+      content = trix_content ? trix_content.inner_html : content
+    end
+    
+    update_params = story_params.merge(content: content)
+    
+    if @story.update(update_params)
       render json: @story
     else
-      render json: { errors: story.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: @story.errors.full_messages }, status: :unprocessable_entity
     end
   end
   

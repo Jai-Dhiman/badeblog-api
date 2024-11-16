@@ -5,6 +5,12 @@ class StorySerializer < ActiveModel::Serializer
   has_one :user
 
   def content
-    object.content.to_s if object.content.present?
+    return nil unless object.content.present?
+    
+    if object.content.to_s.include?('class="trix-content"')
+      object.content.to_s
+    else
+      "<div class=\"trix-content\">#{object.content.to_s}</div>"
+    end
   end
 end

@@ -10,6 +10,7 @@ gem "jwt"
 gem "bcrypt", "~> 3.1.7"
 gem "jbuilder"
 gem 'active_model_serializers'
+gem 'nokogiri'
 
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 

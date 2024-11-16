@@ -262,6 +262,7 @@ DEPENDENCIES
   faker
   jbuilder
   jwt
+  nokogiri
   paranoia
   pg (~> 1.1)
   puma (>= 5.0)
