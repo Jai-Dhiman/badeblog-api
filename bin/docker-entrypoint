@@ -1,8 +1,16 @@
-#!/bin/bash -e
+#!/bin/bash
+set -e
 
-# If running the rails server then create or migrate existing database
+echo "Starting docker-entrypoint script..."
+
+# Remove a potentially pre-existing server.pid for Rails
+rm -f tmp/pids/server.pid
+
 if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
-  ./bin/rails db:prepare
+    echo "Running database preparations..."
+    bundle exec rails db:prepare
+    echo "Database preparations completed."
 fi
 
+echo "Executing main command..."
 exec "${@}"
