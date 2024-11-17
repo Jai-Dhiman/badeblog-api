@@ -15,7 +15,6 @@ RSpec.describe StoriesController, type: :controller do
       get :index
       expect(response).to have_http_status(:ok)
       json_response = JSON.parse(response.body)
-      # Access the 'data' key in the response
       expect(json_response['data'].length).to eq(@stories.length)
     end
   end
