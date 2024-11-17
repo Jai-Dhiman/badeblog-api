@@ -8,11 +8,11 @@ user = User.new(
 user.save!
 
 categories = [
-  Category.new(name: 'Essays'),
-  Category.new(name: 'Articles'),
-  Category.new(name: 'Short Stories'),
-  Category.new(name: 'Poems'),
-  Category.new(name: 'Plays'),
+  Category.new(name: 'Essay'),
+  Category.new(name: 'Article'),
+  Category.new(name: 'Short Story'),
+  Category.new(name: 'Poem'),
+  Category.new(name: 'Play'),
   Category.new(name: 'Other')
 ]
 
