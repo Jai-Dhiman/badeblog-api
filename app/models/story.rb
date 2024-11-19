@@ -14,4 +14,13 @@ class Story < ApplicationRecord
   validates :user_id, presence: true
   
   scope :published, -> { where(status: 'published') }
+  before_save :set_published_at
+
+  private 
+
+  def set_published_at
+    if status_changed? && status == 'published'
+      self.published_at = Time.current
+    end
+  end
 end

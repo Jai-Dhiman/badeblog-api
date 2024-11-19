@@ -6,7 +6,7 @@ class StoriesController < ApplicationController
   def index
     stories = Story.includes(:category, :user, :rich_text_content)
                   .published
-                  .order(created_at: :desc)
+                  .order(published_at: :desc, created_at: :desc)
     render json: stories, root: false
   end
   
@@ -50,7 +50,7 @@ class StoriesController < ApplicationController
 def published
   stories = Story.published
                 .includes(:category, :user, :rich_text_content)
-                .order(created_at: :desc)
+                .order(published_at: :desc, created_at: :desc)
   render json: stories
 end
 

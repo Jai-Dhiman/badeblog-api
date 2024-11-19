@@ -1,5 +1,5 @@
 class StorySerializer < ActiveModel::Serializer
-  attributes :id, :title, :content, :status, :category_id, :user_id, :created_at, :updated_at
+  attributes :id, :title, :content, :status, :category_id, :user_id, :created_at, :updated_at, :published_at
 
   has_one :category
   has_one :user
