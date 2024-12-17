@@ -15,4 +15,5 @@ Rails.application.routes.draw do
     get 'stories', on: :member
   end
 
+  resources :subscribers, only: [:create]
 end

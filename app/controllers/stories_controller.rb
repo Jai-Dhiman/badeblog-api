@@ -88,5 +88,4 @@ end
       StoryMailer.new_story_notification(subscriber, @story).deliver_later
     end
   end
-  #random comment to reload railway
 end
