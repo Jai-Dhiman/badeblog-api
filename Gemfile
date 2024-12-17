@@ -19,6 +19,9 @@ gem "bootsnap", require: false
 gem "rack-cors"
 gem "paranoia"
 
+gem 'actionmailer'
+gem 'letter_opener', group: :development 
+
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
   gem 'rspec-rails'

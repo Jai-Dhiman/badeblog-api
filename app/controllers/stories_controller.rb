@@ -17,9 +17,11 @@ class StoriesController < ApplicationController
   def create
     story = current_user.stories.build(story_params)
     if story.save
+      notify_subscribers if story.status == 'published'
       render json: story, status: :created
     else
-      render json: { errors: story.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: story.errors.full_messages }, 
+        status: :unprocessable_entity
     end
   end
   
@@ -78,6 +80,12 @@ end
   def authorize_admin!
     unless current_user&.admin?
       render json: { error: 'Unauthorized' }, status: :forbidden
+    end
+  end
+
+  def notify_subscribers
+    Subscriber.find_each do |subscriber|
+      StoryMailer.new_story_notification(subscriber, @story).deliver_later
     end
   end
 end
