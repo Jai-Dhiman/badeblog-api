@@ -13,6 +13,8 @@ class Story < ApplicationRecord
   validates :category_id, presence: true
   validates :user_id, presence: true
   
+
+  default_scope { order(published_at: :desc) }
   scope :published, -> { where(status: 'published') }
   before_save :set_published_at
 
