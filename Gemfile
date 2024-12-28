@@ -19,8 +19,14 @@ gem "bootsnap", require: false
 gem "rack-cors"
 gem "paranoia"
 
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
+
 gem 'actionmailer'
 gem 'letter_opener', group: :development 
+
+gem 'dotenv-rails', groups: [:development, :test]
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]

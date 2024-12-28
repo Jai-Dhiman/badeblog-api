@@ -4,7 +4,7 @@ class StoryMailer < ApplicationMailer
     @subscriber = subscriber
     mail(
       to: @subscriber.email,
-      subject: "New Story Published: #{@story.title}"
+      subject: "New Story Published on myideasmywords: #{@story.title}"
     )
   end
 end
