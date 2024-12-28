@@ -20,13 +20,13 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address:              'smtp.gmail.com',
     port:                 587,
-    domain:              'web-production-e3d6.up.railway.app',
+    domain:              'www.myideasmywords.com',
     user_name:           ENV['GMAIL_USERNAME'],
     password:            ENV['GMAIL_APP_PASSWORD'],
     authentication:      'plain',
     enable_starttls_auto: true
   }
-  config.action_mailer.default_url_options = { host: ENV['BACKEND_URL'] || 'https://web-production-e3d6.up.railway.app' }
+  config.action_mailer.default_url_options = { host: "www.myideasmywords.com" }
 
   config.i18n.fallbacks = true
   config.active_support.report_deprecations = false
