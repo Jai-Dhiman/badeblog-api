@@ -26,7 +26,7 @@ Rails.application.configure do
     authentication:      'plain',
     enable_starttls_auto: true
   }
-  config.action_mailer.default_url_options = { host: 'www.myideasmywords.com' }
+  config.action_mailer.default_url_options = { host: ENV['BACKEND_URL'] || 'https://web-production-e3d6.up.railway.app' }
 
   config.i18n.fallbacks = true
   config.active_support.report_deprecations = false
