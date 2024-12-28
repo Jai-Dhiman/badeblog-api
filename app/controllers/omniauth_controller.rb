@@ -1,12 +1,7 @@
 class OmniauthController < ApplicationController
   def google_oauth2
-    Rails.logger.info "OAuth callback received"
     auth = request.env['omniauth.auth']
-    Rails.logger.info "Auth data: #{auth.inspect}"
-    
     user = User.from_omniauth(auth)
-    Rails.logger.info "User created/found: #{user.inspect}"
-    
     jwt = JWT.encode(
       {
         user_id: user.id,
@@ -18,16 +13,12 @@ class OmniauthController < ApplicationController
       Rails.application.credentials.fetch(:secret_key_base),
       'HS256'
     )
-    Rails.logger.info "JWT created: #{jwt}"
     
-    redirect_url = "#{ENV['FRONTEND_URL']}/auth/callback?token=#{jwt}"
-    Rails.logger.info "Redirecting to: #{redirect_url}"
-    
-    redirect_to redirect_url
+    redirect_to "#{ENV['FRONTEND_URL']}/auth/callback?token=#{jwt}", allow_other_host: true
   end
-  
+
   def failure
     Rails.logger.error "OAuth failure: #{params.inspect}"
-    redirect_to "#{ENV['FRONTEND_URL']}/login?error=oauth_failure"
+    redirect_to "#{ENV['FRONTEND_URL']}/login?error=oauth_failure", allow_other_host: true
   end
 end
