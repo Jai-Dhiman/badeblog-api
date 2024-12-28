@@ -35,4 +35,5 @@ class SubscribersController < ApplicationController
     unless ENV['FRONTEND_URL'].present?
       Rails.logger.error "FRONTEND_URL environment variable is not set!"
     end
+  end
 end
