@@ -6,7 +6,8 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     image_size: 50,
     provider_ignores_state: true, 
     access_type: 'offline',
-    skip_jwt: true
+    skip_jwt: true,
+    redirect_uri: "#{ENV['FRONTEND_URL']}/auth/callback"
   }
 end
 

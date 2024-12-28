@@ -14,11 +14,10 @@ class OmniauthController < ApplicationController
       'HS256'
     )
 
-    frontend_url = ENV['FRONTEND_URL'] || 'https://www.myideasmywords.com'
-    redirect_to "#{frontend_url}/auth/callback?token=#{jwt}"
+  redirect_to "#{ENV['FRONTEND_URL']}/auth/callback?token=#{jwt}"
   end
 
   def failure
-    redirect_to "#{frontend_url}/login?error=oauth_failure"
+    redirect_to "#{ENV['FRONTEND_URL']}/login?error=oauth_failure"
   end
 end
