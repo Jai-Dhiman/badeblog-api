@@ -9,6 +9,17 @@ class SubscribersController < ApplicationController
     end
   end
 
+  def unsubscribe
+    @subscriber = Subscriber.find_by!(unsubscribe_token: params[:token])
+    if @subscriber.destroy
+      redirect_to "#{ENV['FRONTEND_URL']}?unsubscribed=true"
+    else
+      redirect_to "#{ENV['FRONTEND_URL']}?unsubscribe_error=true"
+    end
+  rescue ActiveRecord::RecordNotFound
+    redirect_to "#{ENV['FRONTEND_URL']}?unsubscribe_error=invalid_token"
+  end
+  
   private
 
   def subscriber_params
