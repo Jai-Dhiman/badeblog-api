@@ -1,7 +1,6 @@
 
 OmniAuth.config.allowed_request_methods = [:post, :get]
 OmniAuth.config.silence_get_warning = true
-OmniAuth.config.provider_ignores_state = true
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :google_oauth2, 
@@ -11,6 +10,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
       scope: 'email,profile',
       prompt: 'select_account',
       image_aspect_ratio: 'square',
-      image_size: 50
+      image_size: 50,
+      provider_ignores_state: true
     }
 end
