@@ -7,7 +7,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     provider_ignores_state: true, 
     access_type: 'offline',
     skip_jwt: true,
-    redirect_uri: "#{ENV['FRONTEND_URL']}/auth/callback"
+    redirect_uri: "#{ENV['FRONTEND_URL']}/auth/callback?token=#{jwt}"
   }
 end
 
