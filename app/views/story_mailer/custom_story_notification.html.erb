@@ -1,0 +1,18 @@
+<!-- app/views/story_mailer/custom_story_notification.html.erb -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+  <h2><%= @story.title %></h2>
+  
+  <h4><%= @custom_message %></h4>
+  
+  <p>Read Story: <%= link_to "Click here", story_url(@story) %></p>
+
+  <div style="margin-top: 20px; font-size: 12px; color: #666;">
+    <p>To <a href="<%= @unsubscribe_url %>">unsubscribe</a></p>
+  </div>
+</body>
+</html>

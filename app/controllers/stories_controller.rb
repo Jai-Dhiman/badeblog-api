@@ -1,8 +1,8 @@
 class StoriesController < ApplicationController
   before_action :authenticate_user, except: [:index, :show, :published]
   before_action :set_story, except: [:index, :create, :published, :drafts]
-  before_action :authorize_admin!, only: [:create, :update, :destroy, :drafts]
-  
+  before_action :authorize_admin!, only: [:create, :update, :destroy, :drafts, :send_notification]
+
   def index
     stories = Story.includes(:category, :user, :rich_text_content)
                   .published
@@ -48,20 +48,33 @@ class StoriesController < ApplicationController
     head :no_content
   end
   
-  
-def published
-  stories = Story.published
-                .includes(:category, :user, :rich_text_content)
-                .order(published_at: :desc, created_at: :desc)
-  render json: stories
-end
+  def published
+    stories = Story.published
+                  .includes(:category, :user, :rich_text_content)
+                  .order(published_at: :desc, created_at: :desc)
+    render json: stories
+  end
 
-def drafts
-  stories = Story.where(status: 'draft')
-                .includes(:category, :user, :rich_text_content)
-                .order(created_at: :desc)
-  render json: stories
-end
+  def drafts
+    stories = Story.where(status: 'draft')
+                  .includes(:category, :user, :rich_text_content)
+                  .order(created_at: :desc)
+    render json: stories
+  end
+
+  def send_notification
+    @story = Story.find(params[:id])
+    custom_message = params[:message]
+    
+    Subscriber.find_each do |subscriber|
+      StoryMailer.custom_story_notification(subscriber, @story, custom_message).deliver_later
+    end
+    
+    render json: { message: 'Notifications sent successfully' }
+  rescue => e
+    Rails.logger.error "Notification error: #{e.message}"
+    render json: { error: e.message }, status: :unprocessable_entity
+  end
 
   private
   
@@ -80,12 +93,6 @@ end
   def authorize_admin!
     unless current_user&.admin?
       render json: { error: 'Unauthorized' }, status: :forbidden
-    end
-  end
-
-  def notify_subscribers
-    Subscriber.find_each do |subscriber|
-      StoryMailer.new_story_notification(subscriber, @story).deliver_later
     end
   end
 end

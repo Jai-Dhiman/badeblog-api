@@ -9,6 +9,9 @@ Rails.application.routes.draw do
       get :drafts
     end
     resources :comments, only: [:create, :index, :update, :destroy]
+    member do
+      post :send_notification
+    end
   end
   
   resources :categories, only: [:index, :show] do
