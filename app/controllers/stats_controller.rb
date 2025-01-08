@@ -2,9 +2,12 @@ class StatsController < ApplicationController
   before_action :authenticate_user
   before_action :require_admin
 
-  def subscriber_count
-    count = Subscriber.count
-    render json: { count: count }
+  def subscriber_list
+    subscribers = Subscriber.select(:email).all
+    render json: { 
+      count: subscribers.count,
+      subscribers: subscribers.map(&:email)
+    }
   end
 
   def recent_comments

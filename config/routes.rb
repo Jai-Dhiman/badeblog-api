@@ -26,8 +26,8 @@ Rails.application.routes.draw do
 
   post '/auth/:provider', to: redirect('/auth/%{provider}')
   get '/auth/:provider', to: redirect('/auth/%{provider}')
-
-  get '/subscribers/count', to: 'stats#subscriber_count'
+  
+  get '/subscribers/list', to: 'stats#subscriber_list'
   get '/comments/recent', to: 'stats#recent_comments'
 
 end
